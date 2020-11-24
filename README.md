@@ -11,3 +11,6 @@ Note: Dashes("-") aren't in the actual script, merely here to emphasize what is 
 
 ### Dynamically scaling
 ![GIF dynamic screen](https://github.com/JackFlexington/Interactive_Terminal/images/scaling-menu.gif)
+
+### In-line inspection tools
+![GIF inspector gadgets](https://github.com/JackFlexington/Interactive_Terminal/images/inspector_gadgets.gif)
