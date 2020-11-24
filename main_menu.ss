@@ -1,4 +1,22 @@
 #!/bin/bash
+# Script Functions
+
+find_header_coords() {
+  header_msg=$1;
+  HEAD_START=$(( ($col - ${#header_msg}) / 2 ))
+  # echo "RESULT= $result";
+  return $result;
+}
+
+display_menu_heading() {
+  header_msg=$1;
+  result=$(( ($col - ${#header_msg}) / 2 ))
+  x=$(($col - ${#header_msg} / 2));
+  BANNER="${BANNER}$1";
+  return;
+}
+
+MENU_HEADING="Menu Menu of Xrobot";
 
 # Main Body loop
 while true
@@ -9,6 +27,7 @@ do
   BANNER="";
   BOTTOMROW=6;
   y=0;
+  find_header_coords "$MENU_HEADING";
 
   # For each column position
   while (($y < $row))
@@ -31,12 +50,14 @@ do
       elif (( $x == $col - 1 ))
       then
         BANNER="${BANNER}\n";
-      elif (( $y == 3 )) && (( $x == 4 ))
+      elif (( $y == 3 )) && (( $x == $HEAD_START ))
       then
-        BANNER="${BANNER} MENU TITLE HERE";
-      elif (( $y > $BOTTOMROW + 2 ))
+        display_menu_heading "$MENU_HEADING";
+      elif (( $y > $BOTTOMROW + 1 ))
       then
         break 2; # Exit both outer and inner loops
+      else
+        BANNER="${BANNER} ";
       # elif (( $x < $col ))
       # then
       #   BANNER="${BANNER} ";
@@ -58,3 +79,4 @@ sleep 1;
 clear;
 sleep 1;
 done
+
