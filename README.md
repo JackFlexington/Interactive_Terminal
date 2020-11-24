@@ -1,6 +1,6 @@
 # Interactive_Terminal
 
-## How are some gif's
+## Here are some gif's
 Note: Dashes("-") aren't in the actual script, merely here to emphasize what is occuring in the background.
 
 ### Small Screen
