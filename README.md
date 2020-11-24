@@ -10,7 +10,7 @@ Note: Dashes("-") aren't in the actual script, merely here to emphasize what is 
 ![GIF large screen](https://github.com/JackFlexington/Interactive_Terminal/blob/master/images/large-with-dashes.gif)
 
 ### Dynamically scaling
-![GIF dynamic screen](https://github.com/JackFlexington/Interactive_Terminal/images/scaling-menu.gif)
+![GIF dynamic screen](https://github.com/JackFlexington/Interactive_Terminal/blob/master/images/scaling-menu.gif)
 
 ### In-line inspection tools
-![GIF inspector gadgets](https://github.com/JackFlexington/Interactive_Terminal/images/inspector_gadgets.gif)
+![GIF inspector gadgets](https://github.com/JackFlexington/Interactive_Terminal/blob/master/images/inspector_gadgets.gif)
