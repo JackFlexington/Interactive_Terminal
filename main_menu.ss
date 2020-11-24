@@ -11,12 +11,15 @@ find_header_coords() {
 display_menu_heading() {
   header_msg=$1;
   result=$(( ($col - ${#header_msg}) / 2 ))
-  x=$(($col - ${#header_msg} / 2));
+  # x=$(($col - ${#header_msg}));
+  x=$((x=x+${#header_msg}-1));
   BANNER="${BANNER}$1";
   return;
 }
 
-MENU_HEADING="Menu Menu of Xrobot";
+MENU_HEADING="SOME MENU HEADING";
+LAST_KNOWN_X=0;
+LAST_KNOWN_Y=0;
 
 # Main Body loop
 while true
@@ -24,6 +27,12 @@ do
   # Outer loop variables
   col=`tput cols`;
   row=`tput lines`;
+  if (( $LAST_KNOWN_X == $col )) && (( $LAST_KNOWN_Y == $row ))
+  then
+    continue;
+  fi
+  LAST_KNOWN_X=$col;
+  LAST_KNOWN_Y=$row;
   BANNER="";
   BOTTOMROW=6;
   y=0;
@@ -47,9 +56,9 @@ do
       then
         BANNER="${BANNER}X";
       # If right-hand side column
-      elif (( $x == $col - 1 ))
+      elif (( $x == $col - 1 )) && (( $y < $BOTTOMROW ))
       then
-        BANNER="${BANNER}\n";
+        BANNER="${BANNER}X\n";
       elif (( $y == 3 )) && (( $x == $HEAD_START ))
       then
         display_menu_heading "$MENU_HEADING";
@@ -65,6 +74,8 @@ do
       #   BANNER="${BANNER} ";
       fi
       # sleep 0.01;
+      # clear;
+      # echo -e "$BANNER";
       # echo $x;
       # echo $col;
       # echo $y;
@@ -73,10 +84,8 @@ do
 
   y=$((y=y+1)); # Increment outer loop
   done 
-
-echo -e "$BANNER";
-sleep 1;
 clear;
-sleep 1;
+echo -e "$BANNER";
+# sleep 1;
 done
 
