@@ -6,10 +6,17 @@ MENU_HEADING="(Interactive monitoring & control window)";
 LAST_KNOWN_X=0;
 LAST_KNOWN_Y=0;
 STATIC_SCREEN=100;
+# INPUT_BUFFER=""; # User Input Method #2
+INSPECTION_TOOLS="X "; 
+USER_INPUT="";
 
 # Standard Color Formatting
-TEXT_GREEN='\033[0;32m'; # GREEN
 TEXT_RED='\033[0;31m'; # RED
+TEXT_GREEN='\033[0;32m'; # GREEN
+TEXT_YELLOW='\033[1;33m'; # YELLOW
+TEXT_BLUE='\033[0;34m'; # BLUE
+TEXT_LIGHT_BLUE='\033[1;34m'; # LIGHT BLUE
+TEXT_GRAY='\033[0;37m'; # GRAY
 TEXT_NC='\033[0m'; # No color
 
 # Components
@@ -22,19 +29,25 @@ banner() {
   elif (( $count_x == 0 )) && (( $count_y < $BOTTOMROW ))
   then
     BANNER="${BANNER}X";
-  # Show TOP records
-  elif (( $count_y == 1 )) && (( $count_x == 2 ))
-  then
-    display_load_balance "LOAD";
-  # Show DISK USAGE records
-  elif (( $count_y == 1 )) && (( $count_x == 12 ))
-  then
-    display_disk_usage "DISK";
-  # Show DISK USAGE records
-  elif (( $count_y == 1 )) && (( $count_x == 22 ))
-  then
-    display_crond_status "CRON";
+  # Inspection Tools Method #1
+  # # Show TOP records
+  # elif (( $count_y == 1 )) && (( $count_x == 2 ))
+  # then
+  #   display_load_balance "LOAD";
+  # # Show DISK USAGE records
+  # elif (( $count_y == 1 )) && (( $count_x == 12 ))
+  # then
+  #   display_disk_usage "DISK";
+  # # Show DISK USAGE records
+  # elif (( $count_y == 1 )) && (( $count_x == 22 ))
+  # then
+  #   display_crond_status "CRON";
   # If right-hand side column
+  # elif (( $count_y == 1 ))
+  # then
+  #   # INSPECTION_TOOLS="$INSPECTION_TOOLS display_crond_status";
+  #   # echo -e "$INSPECTION_TOOLS";
+  #   count_y=$((count_y=count_y+1))
   elif (( $count_x == $coord_x - 1 )) && (( $count_y < $BOTTOMROW ))
   then
     BANNER="${BANNER}X\n";
@@ -100,33 +113,65 @@ display_menu_heading() {
   return;
 }
 
-display_load_balance() {
-  header_msg=$1;
-  load_values=`cat /proc/loadavg | cut -d' ' -f1`;
-  BANNER="${BANNER}$1:$load_values";
-  count_x=$((count_x=count_x+${#header_msg}+${#load_values}));
-  return;
+# Inspection Tools Method #1
+# display_load_balance() {
+#   header_msg=$1;
+#   load_values=`cat /proc/loadavg | cut -d' ' -f1`;
+#   BANNER="${BANNER}$1:$load_values";
+#   count_x=$((count_x=count_x+${#header_msg}+${#load_values}));
+#   return;
+# }
+#
+# display_disk_usage() {
+#   disk_values=`df / --output=pcent | tail -n1`;
+#   header_msg=$1;
+#   BANNER="${BANNER}$1:$disk_values";
+#   count_x=$((count_x=count_x+${#header_msg}+${#disk_values}));
+#   return;
+# }
+#
+# display_crond_status() {
+#   crond_values=`pgrep crond`;
+#   header_msg=$1;
+#   # echo "$crond_values";
+#   if [ $crond_values != "" ]
+#   then
+#     BANNER="${BANNER}$1:T";
+#   else
+#     BANNER="${BANNER}$1:F";
+#   fi
+#   count_x=$((count_x=count_x+${#header_msg}+1));
+# }
+
+# Inspection Tools Method#2
+inspection_top() {
+  INSPECTION_TOOLS="${INSPECTION_TOOLS} TOP:"`cat /proc/loadavg | cut -d' ' -f1`;
 }
 
-display_disk_usage() {
-  disk_values=`df / --output=pcent | tail -n1`;
-  header_msg=$1;
-  BANNER="${BANNER}$1:$disk_values";
-  count_x=$((count_x=count_x+${#header_msg}+${#disk_values}));
-  return;
+inspection_disk() {
+  INSPECTION_TOOLS="${INSPECTION_TOOLS} DISK:"`df / --output=pcent | tail -n1`;
 }
 
-display_crond_status() {
+inspection_cron() {
   crond_values=`pgrep crond`;
-  header_msg=$1;
-  # echo "$crond_values";
   if [ $crond_values != "" ]
   then
-    BANNER="${BANNER}$1:T";
+    INSPECTION_TOOLS="${INSPECTION_TOOLS} CRON ${TEXT_GREEN}T${TEXT_NC}";
   else
-    BANNER="${BANNER}$1:F";
+    INSPECTION_TOOLS="${INSPECTION_TOOLS} CRON ${TEXT_GREEN}F${TEXT_NC}";
   fi
-  count_x=$((count_x=count_x+${#header_msg}+1));
+}
+
+# User Input Method #3
+display_inspection_tools() {
+  tput sc; # Save cursor position @ user input prompt
+  tput cup 1 0; # Move cursor to inline inspection tools
+  INSPECTION_TOOLS="X";
+  inspection_top;
+  inspection_disk;
+  inspection_cron;
+  echo -e "$INSPECTION_TOOLS"; # Overwrite line under cursor
+  tput rc; # Return to save cursor location
 }
 
 # Main Body loop
@@ -181,14 +226,58 @@ do
 clear; # Refresh screen
 echo -e "$BANNER";
 echo -e "$MENU_MSG";
-echo -e "(CLI ${TEXT_RED}deactivated${TEXT_NC})"
-read -t3 -n1 -p "<enter \"T\" to enable>" user_input; # 3-sec timer ; accept single character ; user prompt message
-if [ "${user_input^}" == "T" ] # To uppercase first character in $user_input
-then
-  # Move cursor, clear to end of screen
+display_inspection_tools;
+
+# User Input Method #1
+# echo -e "(CLI ${TEXT_RED}deactivated${TEXT_NC})"
+# read -t3 -n1 -p "<enter \"T\" to enable>" USER_INPUT; # 3-sec timer ; accept single character ; user prompt message
+# if [ "${^}" == "T" ] # To uppercase first character in $USER_INPUT
+# then
+#   # Move cursor, clear to end of screen
+#   tput cup 11 0 && tput ed # https://unix.stackexchange.com/questions/297502/clear-half-of-the-screen-from-the-command-line
+#   echo -e "(CLI ${TEXT_GREEN}activated${TEXT_NC})";
+#   read -t5 -p "Enter command here:>" USER_INPUT;
+# fi
+
+# User Input Method #2
+# if [ "$INPUT_BUFFER" == "" ]
+# then
+#   echo -e "$TEXT_GRAY<Nothing in buffer>$TEXT_NC";
+# else
+#   echo -e "$INPUT_BUFFER";
+# fi
+# # echo $INPUT_BUFFER;
+# # echo $USER_INPUT;
+# # sleep 1;
+# read -n1 -p "user input -->" USER_INPUT;
+# if [ "${USER_INPUT^}" != "" ] # To uppercase first character in $USER_INPUT
+# then
+#   INPUT_BUFFER="${INPUT_BUFFER}${USER_INPUT}";
+# fi
+# USER_INPUT=""; # Reset input buffer
+
+# User Input Method #3
+while [ "${USER_INPUT}" == "" ] 
+do
   tput cup 11 0 && tput ed # https://unix.stackexchange.com/questions/297502/clear-half-of-the-screen-from-the-command-line
-  echo -e "(CLI ${TEXT_GREEN}activated${TEXT_NC})";
-  read -t5 -p "Enter command here:>" user_input;
-fi
+  echo -e "${TEXT_LIGHT_BLUE}system awaiting user input...${TEXT_NC}";
+  read -t3 -n1 -p "CLI:>>>" detect_input; # 3-sec timer ; accept single character ; user prompt message
+  if [ "${detect_input^}" != "" ] # To uppercase first character in $USER_INPUT
+  then
+    # Move cursor, clear to end of screen
+    tput cup 11 0 && tput ed # https://unix.stackexchange.com/questions/297502/clear-half-of-the-screen-from-the-command-line
+    echo -e "${TEXT_YELLOW}User typing...${TEXT_NC}";
+    # sleep 2;
+    read -t5 -p "CLI:>>>${detect_input}" USER_INPUT;
+    echo "(YOU KEYED IN) ${detect_input}${USER_INPUT}";
+    USER_INPUT="${detect_input}${USER_INPUT}";
+    sleep 2;
+    # Do something with $USER_INPUT here
+    USER_INPUT="";
+  else
+    display_inspection_tools; # Update Inspection tools
+  fi
+done
+
 sleep 0.1; # Wanted to give it some sort of expected cycle count
 done
