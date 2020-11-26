@@ -14,3 +14,6 @@ Note: Dashes("-") aren't in the actual script, merely here to emphasize what is 
 
 ### In-line inspection tools
 ![GIF inspector gadgets](https://github.com/JackFlexington/Interactive_Terminal/blob/master/images/inspector_gadgets.gif)
+
+### User input
+![GIF user input](https://github.com/JackFlexington/Interactive_Terminal/blob/master/images/user_input.gif)
