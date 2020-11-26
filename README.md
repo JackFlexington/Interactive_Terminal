@@ -17,3 +17,4 @@ Note: Dashes("-") aren't in the actual script, merely here to emphasize what is 
 
 ### User input
 ![GIF user input](https://github.com/JackFlexington/Interactive_Terminal/blob/master/images/user_input_2.gif)
+* Known issue: Due to the logic for the newest version of "user_input", the scaling ability of terminal window has become broken. The next update will resolve this issue.
