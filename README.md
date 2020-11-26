@@ -16,5 +16,4 @@ Note: Dashes("-") aren't in the actual script, merely here to emphasize what is 
 ![GIF inspector gadgets](https://github.com/JackFlexington/Interactive_Terminal/blob/master/images/inspector_gadgets.gif)
 
 ### User input
-![GIF user input](https://github.com/JackFlexington/Interactive_Terminal/blob/master/images/user_input.gif)
-* Known Issue: If you go to fast, you'll mess up the read buffers. Need to programming logic to correct this.
+![GIF user input](https://github.com/JackFlexington/Interactive_Terminal/blob/master/images/user_input_2.gif)
