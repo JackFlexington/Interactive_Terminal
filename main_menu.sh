@@ -10,7 +10,7 @@ STATIC_SCREEN=100;
 INSPECTION_TOOLS="X "; 
 USER_INPUT="";
 USER_PROMPT_TIME=0.117;
-OUTPUT_WAIT_TIME=1;
+OUTPUT_WAIT_TIME=2;
 SHELL_OUT_TIMER=5;
 
 # Standard Color Formatting
@@ -111,6 +111,13 @@ do
       echo -e "${TEXT_LIGHT_PURPLE}(SHELL OUT)${TEXT_NC}";
       echo -e "${TEXT_LIGHT_BLUE}CWD=`pwd`${TEXT_NC}";
       read -t${SHELL_OUT_TIMER} -p "CLI>>>" USER_INPUT;
+      if [ "${USER_INPUT}" == "" ]
+      then
+        echo -e "(No user input detected...)";
+        sleep ${OUTPUT_WAIT_TIME};
+        continue; # Skip to next cycle
+      fi
+      # echo "nope" ; sleep 2 ;
       echo -e "${TEXT_YELLOW}Command entered >>>${USER_INPUT}${TEXT_NC}";
       ${USER_INPUT};
       sleep ${OUTPUT_WAIT_TIME};
