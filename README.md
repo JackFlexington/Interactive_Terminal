@@ -17,4 +17,8 @@ Note: Dashes("-") aren't in the actual script, merely here to emphasize what is 
 
 ### User input
 ![GIF user input](https://github.com/JackFlexington/Interactive_Terminal/blob/master/images/user_input_2.gif)
-* Known issue: Due to the logic for the newest version of "user_input", the scaling ability of terminal window has become broken. The next update will resolve this issue.
+Corrected following issue:~~* Known issue: Due to the logic for the newest version of "user_input", the scaling ability of terminal window has become broken. The next update will resolve this issue.~~
+
+### Shell out
+![GIF user input](https://github.com/JackFlexington/Interactive_Terminal/blob/master/images/shell_out.gif)
+Note: You perform this by keying in "$", this will prompt the script to allow you to type as if you're on the CLI. (Good for one off commands)
