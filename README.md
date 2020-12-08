@@ -22,7 +22,7 @@ Corrected following issue:~~* Known issue: Due to the logic for the newest versi
 ### Shell out
 ![GIF user input](https://github.com/JackFlexington/Interactive_Terminal/blob/master/images/shell_out.gif)
 Note: You perform this by keying in "$", this will prompt the script to allow you to type as if you're on the CLI. (Good for one off commands)
-
+* Known Issue: "$" symbol gets inserted into "Inspection Toolbar" when keyed at the exact moment the Inspect toolbar is being created. Lol.
 
 # Upcoming features / changes
 * Display all stale processes
