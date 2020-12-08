@@ -22,3 +22,9 @@ Corrected following issue:~~* Known issue: Due to the logic for the newest versi
 ### Shell out
 ![GIF user input](https://github.com/JackFlexington/Interactive_Terminal/blob/master/images/shell_out.gif)
 Note: You perform this by keying in "$", this will prompt the script to allow you to type as if you're on the CLI. (Good for one off commands)
+
+
+# Upcoming features / changes
+* Display all stale processes
+* Display all duplicate processes
+* Allow users to customize "key" words for output streams. (i.e. Make word "ERROR" as "red color")
